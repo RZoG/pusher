@@ -21,7 +21,6 @@ function SendPushover($token, $user, $message, $device=NULL, $title=NULL, $url=N
 
 function ICMPping($host,$time) {  
 	$ping=shell_exec("ping -c".$time." ".$host);
-//	echo($ping);
 	if (strpos($ping, " time=")) return ("Up");
 	else {
 		return("Down");
@@ -87,48 +86,55 @@ function RememberStatus() {
 	echo ("<br> New status is: ".$current_status."\n");
 }
 
-$ver =0.98; 
-echo ("<br> Pusher ver. $ver\n");
-echo ("<br> Created by RZoG/Slight\n");
+//  Program start
+//-----------------
 
+$ver =0.98;				// Set version number
+echo ("<br> Pusher ver. $ver\n");	// Introduce yourself
+echo ("<br> Created by RZoG/Slight\n");	// Show credits
 
+// Read configuration file
 $ini_array = parse_ini_file("pusher.ini",TRUE);
 
+//  Main loop
+//-------------
+
+// Put configuration file in to array 
 foreach($ini_array as $config){
-	if(isset($config["Type"]))			$_type		=$config["Type"];	else $_type=NULL;
-	if(isset($config["Title"]))			$_title		=$config["Title"];  else $_title=NULL;
-	if(isset($config["FName"]))			$_fname		=$config["FName"];
-	if(isset($config["Token"]))			$_token		=$config["Token"];
-	if(isset($config["User"]))			$_user		=$config["User"];
+	if(isset($config["Type"]))		$_type		=$config["Type"];	else $_type=NULL;
+	if(isset($config["Title"]))		$_title		=$config["Title"];	else $_title=NULL;
+	if(isset($config["FName"]))		$_fname		=$config["FName"];
+	if(isset($config["Token"]))		$_token		=$config["Token"];
+	if(isset($config["User"]))		$_user		=$config["User"];
 	if(isset($config["Device"]))		$_device	=$config["Device"];
-	if(isset($config["Url"]))			$_url		=$config["Url"];
+	if(isset($config["Url"]))		$_url		=$config["Url"];
 	if(isset($config["Url_Title"]))		$_url_title	=$config["Url_Title"];
 	if(isset($config["Priority"]))		$_priority	=$config["Priority"];
-	if(isset($config["Sound"]))			$_sound		=$config["Sound"];
-	if(isset($config["Host"]))			$_host		=$config["Host"];
-	if(isset($config["Port"]))			$_port		=$config["Port"];
-	if(isset($config["Time"]))			$_time		=$config["Time"];
+	if(isset($config["Sound"]))		$_sound		=$config["Sound"];
+	if(isset($config["Host"]))		$_host		=$config["Host"];
+	if(isset($config["Port"]))		$_port		=$config["Port"];
+	if(isset($config["Time"]))		$_time		=$config["Time"];
 	if(isset($config["String"]))		$_string	=$config["String"];
 	if(isset($config["ObjectID"]))		$_objectid	=$config["ObjectID"];
-
+// Show tittle of current job
 	echo ("<br>\n<br> $_title");
-
+// Execute specific acction determined by the type
 	switch ($_type){
 
 //  Set Default
 //---------------
 
-    	case "Defaults":
-			echo (" - Set default values\n");
-			break;
+    	case "Defaults":					// Set global values pusher.ini should begin with those
+			echo (" - Set default values\n");	// you can set it again to change pushover account
+			break;					// or set some variables used in global in other places. 
 
 //  ICMP Ping
 //-------------
 		case "ICMP_Ping":
 			echo (" - ICMP Ping\n");
 			
-			$current_status=ICMPping($_host,$_time);
-
+			$current_status=ICMPping($_host,$_time); 	// $_host - DNS name or IP of the target
+									// $_time - number of trays any scccesful is OK
 			RememberStatus();
 
 			if ($old_status!=$current_status) { 
@@ -231,9 +237,9 @@ foreach($ini_array as $config){
 			break;
 
 //  Unknkwn action
-//----------------
+//------------------
 
-    default:
+    default:					// Used action name is not speciffied in the code.
 		echo " - No Action?!?\n";
 
 	}
