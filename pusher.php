@@ -124,7 +124,7 @@ foreach($ini_array as $config){
 //  Set Default
 //---------------
 
-    	case "Defaults":					// Set global values pusher.ini should begin with those
+    		case "Defaults":				// Set global values pusher.ini should begin with those
 			echo (" - Set default values\n");	// you can set it again to change pushover account
 			break;					// or set some variables used in global in other places. 
 
@@ -145,8 +145,6 @@ foreach($ini_array as $config){
 			}
 			else echo ("<br> The same old story\n");
 			break;
-
-
 
 //  TCP Ping
 //------------
@@ -240,7 +238,7 @@ foreach($ini_array as $config){
 //------------------
 
     default:					// Used action name is not speciffied in the code.
-		echo " - No Action?!?\n";
+		echo (" - No Action?!?\n");
 
 	}
 }
